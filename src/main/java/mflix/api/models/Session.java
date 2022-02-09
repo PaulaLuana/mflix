@@ -1,16 +1,21 @@
 package mflix.api.models;
 
+import org.bson.Document;
 import org.bson.codecs.pojo.annotations.BsonProperty;
 
-public class Session {
+public class Session extends Document {
 
     @BsonProperty(value = "user_id")
     private String userId;
 
     private String jwt;
 
-    public Session() {
+    public Session(Document user_id) {
         super();
+    }
+
+    public Session() {
+
     }
 
     public String getUserId() {

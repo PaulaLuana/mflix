@@ -46,9 +46,9 @@ public class UserTest extends TicketTest {
     this.testUser.setHashedpw("somehashedpw");
     this.jwt = "somemagicjwt";
     mongoClient
-        .getDatabase(databaseName)
-        .getCollection("users")
-        .deleteOne(new Document("email", "log@out.com"));
+            .getDatabase(databaseName)
+            .getCollection("users")
+            .deleteOne(new Document("email", "log@out.com"));
   }
 
   @After
@@ -64,8 +64,8 @@ public class UserTest extends TicketTest {
   public void testRegisterUser() {
 
     assertTrue(
-        "Should have correctly created the user - check your write user method",
-        dao.addUser(testUser)); // add string explanation
+            "Should have correctly created the user - check your write user method",
+            dao.addUser(testUser)); // add string explanation
 
     User user = dao.getUser(testUser.getEmail());
     Assert.assertEquals(testUser.getName(), user.getName());
@@ -80,9 +80,9 @@ public class UserTest extends TicketTest {
     assertTrue("Should be able to create user sesssion.", result);
     Session session = dao.getUserSession(testUser.getEmail());
     assertEquals(
-        "The user email needs to match the `session` user_id field",
-        testUser.getEmail(),
-        session.getUserId());
+            "The user email needs to match the `session` user_id field",
+            testUser.getEmail(),
+            session.getUserId());
     assertEquals("jwt key needs to match the session `jwt`", jwt, session.getJwt());
   }
 
@@ -95,8 +95,8 @@ public class UserTest extends TicketTest {
     mongoClient.getDatabase(databaseName).getCollection("sessions").insertOne(logOutUserSession);
 
     assertTrue(
-        "Should have deleted user from sessions collection - check your logout method",
-        dao.deleteUser(email));
+            "Should have deleted user from sessions collection - check your logout method",
+            dao.deleteUserSessions(email));
     Session session = dao.getUserSession(email);
     assertNull("All sessions for user should have been deleted after logout", session);
   }
@@ -105,15 +105,15 @@ public class UserTest extends TicketTest {
   public void testDeleteUser() {
     dao.addUser(testUser);
     assertTrue(
-        "You should be able to delete correctly the testDb user. Check your delete filter",
-        dao.deleteUser(testUser.getEmail()));
+            "You should be able to delete correctly the testDb user. Check your delete filter",
+            dao.deleteUser(testUser.getEmail()));
 
     assertNull(
-        "Should not find any sessions after deleting a user. deleteUser() method needs to remove the user sessions data!",
-        dao.getUserSession(testUser.getEmail()));
+            "Should not find any sessions after deleting a user. deleteUser() method needs to remove the user sessions data!",
+            dao.getUserSession(testUser.getEmail()));
 
     assertNull(
-        "User data should not be found after user been deleted. Make sure you delete data from users collection",
-        dao.getUser(testUser.getEmail()));
+            "User data should not be found after user been deleted. Make sure you delete data from users collection",
+            dao.getUser(testUser.getEmail()));
   }
 }
